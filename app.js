@@ -30,7 +30,7 @@ var quizQuestions = {
             'Contaminated brake fluid',
             'Worn brake pads',
             'Air in the hydraulic system'
-        ]
+        ],
         [
             'A vehicle\'s air conditioner blower motor will only work if the selector is in the high position. '+
             'Technician A says to check the blower motor resistor. Technician B says this is most likely a loose ground connection. '+
@@ -39,7 +39,7 @@ var quizQuestions = {
             'Technician B',
             'Both Technician A and B',
             'Neither Technician A or B'
-        ]
+        ],
         [
             'A pedal mounted brake switch is being tested with a voltmeter. '+
             'The pedal is depressed, and there is power at the switch, but no power coming out. '+
@@ -53,15 +53,38 @@ var quizQuestions = {
     ]
 }
 
-var answerKey = {
-    answer = [
-        [
+// var answerKey = {
+//     answer = [
+//         [
 
-        ]
-    ]
+//         ]
+//     ]
+// }
+
+function createHtmlQuestionAndAnswer(quizQuestions){
+    var html = '<p class="js-question">'+quizQuestions.questions[0][0]+'</p>'+
+                '<ol>'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[0][1]+'</li>'+
+                    '</a>'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[0][2]+'</li>'+
+                    '</a>'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[0][3]+'</li>'+
+                    '</a>'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[0][4]+'</li>'+
+                    '</a>'+
+                '</ol>';
+    $('.js-question').append(html);
+    console.log(quizQuestions.questions[0][2]);
 }
 
-// function createHtml
+// alert("linked");
+// alert(quizQuestions.questions[0][0]);
 
-alert("linked");
-alert(quizQuestions.questions[0][0]);
+$(function(){
+    createHtmlQuestionAndAnswer(quizQuestions);
+   
+})
