@@ -1,0 +1,22 @@
+.current-question-box{
+    text-align: center;
+}
+
+.percent-correct-box{
+    text-align: center;
+}
+
+.temp-box-greyFrame{
+    /*text-align: center;*/
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border: 2px solid black;
+    background-color: lightgrey;
+    /*width: 800px;*/
+    height: 400px;
+}
+
+.return-start-btn{
+    text-align: right;
+}

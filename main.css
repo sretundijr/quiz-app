@@ -1,0 +1,11 @@
+
+.start-screen{
+    text-align: center;
+}
+
+.start-screen-button{
+    max-width: 300px;
+    width: 100%;
+    /*max-height: 200px;*/
+    height: 75px;
+}
