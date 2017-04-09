@@ -1,7 +1,7 @@
 //this is a 5x5 array containing the question at the first index and the answers at the following indices 
 //ie [0][0] = question
 //[0][1] = first answer of first question
-//questions taken from various ase pratice test questions
+//questions taken from various ase practice test questions
 //may use this in real life
 var quizQuestions = {
     questions: [
@@ -53,7 +53,7 @@ var quizQuestions = {
     ]
 }
 
-//this object tracks the number of questions the user has answered
+//this object tracks the number of questions the user has answered and how answered correctly
 var userSubmission = {
     questionCount: 0,
     answeredCorrectly: 0
@@ -117,7 +117,7 @@ function determineIfCorrect(correctAnswers, userSubmission, user){
 function updateUiCounters(userSubmission){
     //updates the question numbers found in top left corner
     $('.current-question-box').find('h4').text((userSubmission.questionCount + 1) + ' of ' + quizQuestions.questions.length);
-
+    //updates the number answered correctly vs total questions answered
     $('.percent-correct-box').find('h4').text(userSubmission.answeredCorrectly + ' of '+ userSubmission.questionCount);
 }
 
