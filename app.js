@@ -1,4 +1,4 @@
-//this is a 2x2 array containing the question at the first index and the answers at the following indices 
+//this is a 5x5 array containing the question at the first index and the answers at the following indices 
 //ie [0][0] = question
 //[0][1] = first answer of first question
 //questions taken from various ase pratice test questions
