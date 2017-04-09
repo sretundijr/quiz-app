@@ -70,22 +70,23 @@ var correctAnswers = {
 function htmlTemplate(quizQuestions, userSubmission){
      var questionNumber = userSubmission.questionCount;
 
-    var html = '<p class="js-added-element">'+quizQuestions.questions[questionNumber][0]+'</p>'+
-                '<ol class="js-answer-list js-added-element">'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[questionNumber][1]+'</li>'+
-                    '</a>'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[questionNumber][2]+'</li>'+
-                    '</a>'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[questionNumber][3]+'</li>'+
-                    '</a>'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[questionNumber][4]+'</li>'+
-                    '</a>'+
-                '</ol>';
-        
+    if(userSubmission.questionCount < quizQuestions.questions.length){
+        var html = '<p class="js-added-element">'+quizQuestions.questions[questionNumber][0]+'</p>'+
+                    '<ol class="js-answer-list js-added-element">'+
+                        '<a class="js-answer" href="#">'+
+                            '<li>'+quizQuestions.questions[questionNumber][1]+'</li>'+
+                        '</a>'+
+                        '<a class="js-answer" href="#">'+
+                            '<li>'+quizQuestions.questions[questionNumber][2]+'</li>'+
+                        '</a>'+
+                        '<a class="js-answer" href="#">'+
+                            '<li>'+quizQuestions.questions[questionNumber][3]+'</li>'+
+                        '</a>'+
+                        '<a class="js-answer" href="#">'+
+                            '<li>'+quizQuestions.questions[questionNumber][4]+'</li>'+
+                        '</a>'+
+                    '</ol>';
+    }
         return html;
 }
 
@@ -111,18 +112,12 @@ $(function(){
 
     //attach listener to container for event delagation
     $('.container').on('click', 'li', function(e){
-    //to prevent index out of bounds error
-        if(userSubmission.questionCount < quizQuestions.questions.length){
-            console.log('event' + userSubmission.questionCount)
-            createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
-            console.log($(this).text());
-            var user = $(this).text();
-            determineIfCorrect(correctAnswers, userSubmission, user);
-        }
-    userSubmission.questionCount++;
-
-    })
-
     
-   
+        // console.log('event' + userSubmission.questionCount)
+        // console.log($(this).text());
+        var user = $(this).text();
+        determineIfCorrect(correctAnswers, userSubmission, user);
+        userSubmission.questionCount++;
+        createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+    });
 })
