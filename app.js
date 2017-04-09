@@ -55,7 +55,8 @@ var quizQuestions = {
 
 //this object tracks the number of questions the user has answered
 var userSubmission = {
-    questionCount: 0
+    questionCount: 0,
+    answeredCorrectly: 0
 }
 
 //the answer key
@@ -106,15 +107,25 @@ function determineIfCorrect(correctAnswers, userSubmission, user){
 // console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
     if(user === correctAnswers.answers[userSubmission.questionCount]){
         console.log("correct");
+        userSubmission.answeredCorrectly++;
     } else {
         console.log("incorrect");
     }
+}
+
+//updates the ui for question counter and answered correctly counter
+function updateUiCounters(userSubmission){
+    //updates the question numbers found in top left corner
+    $('.current-question-box').find('h4').text((userSubmission.questionCount + 1) + ' of ' + quizQuestions.questions.length);
+
+    $('.percent-correct-box').find('h4').text(userSubmission.answeredCorrectly + ' of '+ userSubmission.questionCount);
 }
 
 //page load and listeners
 $(function(){
     userSubmission.questionCount = 0;
     createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+    updateUiCounters(userSubmission);
 
     //attach listener to container for event delagation
     $('.container').on('click', 'li', function(e){
@@ -125,5 +136,6 @@ $(function(){
         determineIfCorrect(correctAnswers, userSubmission, user);
         userSubmission.questionCount++;
         createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+        updateUiCounters(userSubmission);
     });
 })
