@@ -54,7 +54,17 @@ var quizQuestions = {
 }
 
 var userSubmission = {
-    questionCount: ''
+    questionCount: 0
+}
+
+var correctAnswers = {
+    answers: [
+        'Neither Technician A or B',
+        'Technician A',
+        'Worn brake pads',
+        'Technician B',
+        'Both Technician A and B'
+    ]
 }
 
 function htmlTemplate(quizQuestions, userSubmission){
@@ -85,18 +95,34 @@ function createHtmlQuestionAndAnswer(quizQuestions, userSubmission){
         $('.container').append(html);
 }
 
+function determineIfCorrect(correctAnswers, userSubmission, user){
+    // console.log(userSubmission.questionCount)
+// console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
+    if(user === correctAnswers.answers[userSubmission.questionCount]){
+        console.log("correct");
+    } else {
+        console.log("incorrect");
+    }
+}
+
 $(function(){
     userSubmission.questionCount = 0;
     createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
 
+    //attach listener to container for event delagation
     $('.container').on('click', 'li', function(e){
-        // alert('here');
-        if(userSubmission.questionCount < quizQuestions.questions.length - 1){
-            userSubmission.questionCount++;
+    //to prevent index out of bounds error
+        if(userSubmission.questionCount < quizQuestions.questions.length){
+            console.log('event' + userSubmission.questionCount)
             createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+            console.log($(this).text());
+            var user = $(this).text();
+            determineIfCorrect(correctAnswers, userSubmission, user);
         }
-        // updateUi(quizQuestions, userSubmission);
+    userSubmission.questionCount++;
 
     })
+
+    
    
 })
