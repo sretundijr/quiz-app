@@ -53,10 +53,12 @@ var quizQuestions = {
     ]
 }
 
+//this object tracks the number of questions the user has answered
 var userSubmission = {
     questionCount: 0
 }
 
+//the answer key
 var correctAnswers = {
     answers: [
         'Neither Technician A or B',
@@ -67,6 +69,7 @@ var correctAnswers = {
     ]
 }
 
+//creates the html with the questions and answers, returns the template
 function htmlTemplate(quizQuestions, userSubmission){
      var questionNumber = userSubmission.questionCount;
 
@@ -90,12 +93,14 @@ function htmlTemplate(quizQuestions, userSubmission){
         return html;
 }
 
+//renders html to the page, but first removes any existing html
 function createHtmlQuestionAndAnswer(quizQuestions, userSubmission){
         var html = htmlTemplate(quizQuestions, userSubmission);
         $('.js-added-element').remove();
         $('.container').append(html);
 }
 
+//determines if the user entered the correct answer by comparing two strings
 function determineIfCorrect(correctAnswers, userSubmission, user){
     // console.log(userSubmission.questionCount)
 // console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
@@ -106,6 +111,7 @@ function determineIfCorrect(correctAnswers, userSubmission, user){
     }
 }
 
+//page load and listeners
 $(function(){
     userSubmission.questionCount = 0;
     createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
