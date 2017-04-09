@@ -53,38 +53,50 @@ var quizQuestions = {
     ]
 }
 
-// var answerKey = {
-//     answer = [
-//         [
-
-//         ]
-//     ]
-// }
-
-function createHtmlQuestionAndAnswer(quizQuestions){
-    var html = '<p class="js-question">'+quizQuestions.questions[0][0]+'</p>'+
-                '<ol>'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[0][1]+'</li>'+
-                    '</a>'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[0][2]+'</li>'+
-                    '</a>'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[0][3]+'</li>'+
-                    '</a>'+
-                    '<a class="js-answer" href="#">'+
-                        '<li>'+quizQuestions.questions[0][4]+'</li>'+
-                    '</a>'+
-                '</ol>';
-    $('.js-question').append(html);
-    console.log(quizQuestions.questions[0][2]);
+var userSubmission = {
+    questionCount: ''
 }
 
-// alert("linked");
-// alert(quizQuestions.questions[0][0]);
+function htmlTemplate(quizQuestions, userSubmission){
+     var questionNumber = userSubmission.questionCount;
+
+    var html = '<p class="js-added-element">'+quizQuestions.questions[questionNumber][0]+'</p>'+
+                '<ol class="js-answer-list js-added-element">'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[questionNumber][1]+'</li>'+
+                    '</a>'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[questionNumber][2]+'</li>'+
+                    '</a>'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[questionNumber][3]+'</li>'+
+                    '</a>'+
+                    '<a class="js-answer" href="#">'+
+                        '<li>'+quizQuestions.questions[questionNumber][4]+'</li>'+
+                    '</a>'+
+                '</ol>';
+        
+        return html;
+}
+
+function createHtmlQuestionAndAnswer(quizQuestions, userSubmission){
+        var html = htmlTemplate(quizQuestions, userSubmission);
+        $('.js-added-element').remove();
+        $('.container').append(html);
+}
 
 $(function(){
-    createHtmlQuestionAndAnswer(quizQuestions);
+    userSubmission.questionCount = 0;
+    createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+
+    $('.container').on('click', 'li', function(e){
+        // alert('here');
+        if(userSubmission.questionCount < quizQuestions.questions.length - 1){
+            userSubmission.questionCount++;
+            createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+        }
+        // updateUi(quizQuestions, userSubmission);
+
+    })
    
 })
