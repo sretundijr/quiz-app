@@ -55,7 +55,10 @@ var quizQuestions = {
 
 //this object tracks the number of questions the user has answered and how answered correctly
 var userSubmission = {
-    questionCount: 0,
+    answerKey: 0,
+    questionCount: function(answerKey){
+        return answerKey + 1;
+    },
     answeredCorrectly: 0
 }
 
@@ -72,9 +75,9 @@ var correctAnswers = {
 
 //creates the html with the questions and answers, returns the template
 function htmlTemplate(quizQuestions, userSubmission){
-     var questionNumber = userSubmission.questionCount;
+     var questionNumber = userSubmission.answerKey;
 
-    if(userSubmission.questionCount < quizQuestions.questions.length){
+    if(questionNumber < quizQuestions.questions.length){
         var html = '<p class="js-added-element">'+quizQuestions.questions[questionNumber][0]+'</p>'+
                     '<ol class="js-answer-list js-added-element">'+
                         '<a class="js-answer" href="#">'+
@@ -94,18 +97,37 @@ function htmlTemplate(quizQuestions, userSubmission){
         return html;
 }
 
+//show quiz score at the end
+function showQuizScore(userSubmission){
+    var count = userSubmission.answerKey;
+
+    var html = '<h3>You recieved a ' + userSubmission.answeredCorrectly + ' out of ' + count + '</h3>';
+    $('.container').append(html);
+}
+
 //renders html to the page, but first removes any existing html
 function createHtmlQuestionAndAnswer(quizQuestions, userSubmission){
         var html = htmlTemplate(quizQuestions, userSubmission);
         $('.js-added-element').remove();
         $('.container').append(html);
+
+        if(userSubmission.answerKey === correctAnswers.answers.length){
+            // userSubmission.questionCount;
+            updateUiCounters(userSubmission);
+            showQuizScore(userSubmission);
+        }else{
+            updateUiCounters(userSubmission);
+        }
+        
+        // showQuizScore(userSubmission);
+        
 }
 
 //determines if the user entered the correct answer by comparing two strings
 function determineIfCorrect(correctAnswers, userSubmission, user){
     // console.log(userSubmission.questionCount)
 // console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
-    if(user === correctAnswers.answers[userSubmission.questionCount]){
+    if(user === correctAnswers.answers[userSubmission.answerKey]){
         console.log("correct");
         userSubmission.answeredCorrectly++;
     } else {
@@ -115,17 +137,23 @@ function determineIfCorrect(correctAnswers, userSubmission, user){
 
 //updates the ui for question counter and answered correctly counter
 function updateUiCounters(userSubmission){
+    var count = userSubmission.questionCount(userSubmission.answerKey);
+    //added to decrement the count variable by one at the end of the quiz so the top left counter
+    //is accurate during the end results rendering
+    if(count > quizQuestions.questions.length){
+        count = quizQuestions.questions.length;
+        console.log(count);
+    }
     //updates the question numbers found in top left corner
-    $('.current-question-box').find('h4').text((userSubmission.questionCount + 1) + ' of ' + quizQuestions.questions.length);
+    $('.current-question-box').find('h4').text(count + ' of ' + quizQuestions.questions.length);
     //updates the number answered correctly vs total questions answered
-    $('.percent-correct-box').find('h4').text(userSubmission.answeredCorrectly + ' of '+ userSubmission.questionCount);
+    $('.percent-correct-box').find('h4').text(userSubmission.answeredCorrectly + ' of '+ userSubmission.answerKey);
 }
 
 //page load and listeners
 $(function(){
-    userSubmission.questionCount = 0;
+    // userSubmission.questionCount = 0;
     createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
-    updateUiCounters(userSubmission);
 
     //attach listener to container for event delagation
     $('.container').on('click', 'li', function(e){
@@ -134,8 +162,8 @@ $(function(){
         // console.log($(this).text());
         var user = $(this).text();
         determineIfCorrect(correctAnswers, userSubmission, user);
-        userSubmission.questionCount++;
+        userSubmission.answerKey++;
         createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
-        updateUiCounters(userSubmission);
+        // updateUiCounters(userSubmission);
     });
 })
