@@ -3,7 +3,6 @@
 //[0][1] = first answer of first question
 //questions taken from various ase practice test questions
 //may use this in real life
-
 var quizQuestions = [
     {
         question: 'After performing a cylinder pressure test on a four cylinder engine, the #1 cylinder is 30 psi below specifications. '+
@@ -19,7 +18,7 @@ var quizQuestions = [
         ]
     },
     {
-        Question: 'A vehicle with a vacuum brake booster has a hard pedal with little stopping power.'+
+        question: 'A vehicle with a vacuum brake booster has a hard pedal with little stopping power.'+
                     'Technician A says a kink in the check valve\'s hose will result in this condition. '+
                     'Technician B says a vacuum booster needs at least 12 Hg of vacuum to operate properly. Who is correct?',
         answer: 0,
@@ -67,118 +66,144 @@ var quizQuestions = [
     }
 ]
 
-//this object tracks the number of questions the user has answered and how answered correctly
-var userSubmission = {
-    answerKey: 0,
-    questionCount: function(answerKey){
-        return answerKey + 1;
-    },
-    answeredCorrectly: 0
+var quizManager = {
+    questionNumber: 0
 }
 
-//the answer key
-var correctAnswers = {
-    answers: [
-        'Technician A',
-        'Worn brake pads',
-        'Technician B',
-        'Both Technician A and B'
-    ]
-}
+//this object tracks the number of questions the user has answered and how answered correctly
+// var userSubmission = {
+//     answerKey: 0,
+//     questionCount: function(answerKey){
+//         return answerKey + 1;
+//     },
+//     answeredCorrectly: 0
+// }
 
 //creates the html with the questions and answers, returns the template
-function htmlTemplate(quizQuestions, userSubmission){
-     var questionNumber = userSubmission.answerKey;
+function htmlTemplate(quizQuestions, questionNumber){
+    //  var questionNumber = userSubmission.answerKey;
 
-    if(questionNumber < quizQuestions.questions.length){
-        var html = '<p class="js-added-element">'+quizQuestions.questions[questionNumber][0]+'</p>'+
-                    '<ol class="js-answer-list js-added-element">'+
-                        '<a class="js-answer" href="#">'+
-                            '<li>'+quizQuestions.questions[questionNumber][1]+'</li>'+
-                        '</a>'+
-                        '<a class="js-answer" href="#">'+
-                            '<li>'+quizQuestions.questions[questionNumber][2]+'</li>'+
-                        '</a>'+
-                        '<a class="js-answer" href="#">'+
-                            '<li>'+quizQuestions.questions[questionNumber][3]+'</li>'+
-                        '</a>'+
-                        '<a class="js-answer" href="#">'+
-                            '<li>'+quizQuestions.questions[questionNumber][4]+'</li>'+
-                        '</a>'+
-                    '</ol>';
-    }
-        return html;
+    //if(questionNumber < quizQuestions.questions.length){
+        var html = '<p class="js-added-element">'+quizQuestions[questionNumber].question+'</p>' +
+                    '<ol class="js-answer-list js-added-element">';
+        //                 '<a class="js-answer" href="#">';
+                         
+         var html2 = quizQuestions[questionNumber].options.map(function(item){
+                      return '<a class="js-answer" href="#">' +
+                                    '<li>'+item+'</li>'+ 
+                                '</a>';
+                    
+                    // console.log(item);
+                    // console.log(quizQuestions[questionNumber].options[0]);
+
+        // quizQuestions[questionNumber].options.forEach(function(item){
+            
+        //     //console.log(quizQuestions[questionNumber].options[item]);
+        })
+        html += html2.join('')          
+        html += '</ol>';  
+
+
+
+        // console.log(html);
+        
+                        // '<a class="js-answer" href="#">'+
+                        //     '<li>'+quizQuestions+'</li>'+
+                        // '</a>'+
+                        // '<a class="js-answer" href="#">'+
+                        //     '<li>'+quizQuestions+'</li>'+
+                        // '</a>'+
+                        // '<a class="js-answer" href="#">'+
+                        //     '<li>'+quizQuestions+'</li>'+
+                        // '</a>'+
+                    
+    //}
+        $('.container').html(html);
 }
 
 //show quiz score at the end
-function showQuizScore(userSubmission){
-    var count = userSubmission.answerKey;
+// function showQuizScore(userSubmission){
+//     var count = userSubmission.answerKey;
 
-    var html = '<h3>You recieved a ' + userSubmission.answeredCorrectly + ' out of ' + count + '</h3>';
-    $('.container').append(html);
-}
+//     var html = '<h3>You recieved a ' + userSubmission.answeredCorrectly + ' out of ' + count + '</h3>';
+//     $('.container').append(html);
+// }
 
-//renders html to the page, but first removes any existing html
-function createHtmlQuestionAndAnswer(quizQuestions, userSubmission){
-        var html = htmlTemplate(quizQuestions, userSubmission);
-        $('.js-added-element').remove();
-        $('.container').append(html);
+// function searchQuizQuestions(quizQuestions){
+//     var rendering = 
+// }
 
-        if(userSubmission.answerKey === correctAnswers.answers.length){
-            // userSubmission.questionCount;
-            updateUiCounters(userSubmission);
-            showQuizScore(userSubmission);
-        }else{
-            updateUiCounters(userSubmission);
-        }
+// renders html to the page, but first removes any existing html
+// function renderHtmlQuestionAndAnswer(quizQuestions, userSubmission){
+
+
+
+//     var renderedArray = quizQuestions.map
+
+//         // var html = htmlTemplate(quizQuestions, userSubmission);
+//         // $('.js-added-element').remove();
+//         // $('.container').append(html);
+
+//         // if(userSubmission.answerKey === correctAnswers.answers.length){
+//         //     // userSubmission.questionCount;
+//         //     updateUiCounters(userSubmission);
+//         //     showQuizScore(userSubmission);
+//         // }else{
+//         //     updateUiCounters(userSubmission);
+//         // }
         
-        // showQuizScore(userSubmission);
+//         // showQuizScore(userSubmission);
         
-}
+// }
 
 //determines if the user entered the correct answer by comparing two strings
-function determineIfCorrect(correctAnswers, userSubmission, user){
-    // console.log(userSubmission.questionCount)
-// console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
-    if(user === correctAnswers.answers[userSubmission.answerKey]){
-        console.log("correct");
-        userSubmission.answeredCorrectly++;
-    } else {
-        console.log("incorrect");
-    }
-}
+// function determineIfCorrect(correctAnswers, userSubmission, user){
+//     // console.log(userSubmission.questionCount)
+// // console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
+//     if(user === correctAnswers.answers[userSubmission.answerKey]){
+//         console.log("correct");
+//         userSubmission.answeredCorrectly++;
+//     } else {
+//         console.log("incorrect");
+//     }
+// }
 
 //updates the ui for question counter and answered correctly counter
-function updateUiCounters(userSubmission){
-    var count = userSubmission.questionCount(userSubmission.answerKey);
-    //added to decrement the count variable by one at the end of the quiz so the top left counter
-    //is accurate during the end results rendering
-    if(count > quizQuestions.questions.length){
-        count = quizQuestions.questions.length;
-        console.log(count);
-    }
-    //updates the question numbers found in top left corner
-    $('.current-question-box').find('h4').text(count + ' of ' + quizQuestions.questions.length);
-    //updates the number answered correctly vs total questions answered
-    $('.percent-correct-box').find('h4').text(userSubmission.answeredCorrectly + ' of '+ userSubmission.answerKey);
-}
+// function updateUiCounters(userSubmission){
+//     var count = userSubmission.questionCount(userSubmission.answerKey);
+//     //added to decrement the count variable by one at the end of the quiz so the top left counter
+//     //is accurate during the end results rendering
+//     if(count > quizQuestions.questions.length){
+//         count = quizQuestions.questions.length;
+//         console.log(count);
+//     }
+//     //updates the question numbers found in top left corner
+//     $('.current-question-box').find('h4').text(count + ' of ' + quizQuestions.questions.length);
+//     //updates the number answered correctly vs total questions answered
+//     $('.percent-correct-box').find('h4').text(userSubmission.answeredCorrectly + ' of '+ userSubmission.answerKey);
+// }    
 
 //page load and listeners
 $(function(){
-    // userSubmission.questionCount = 0;
-    createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+    // // userSubmission.questionCount = 0;
+    // createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
 
     //attach listener to container for event delagation
     $('.container').on('click', 'li', function(e){
     
         // console.log('event' + userSubmission.questionCount)
         // console.log($(this).text());
-
+        // console.log($(this).index()  );
         //try to use index here 
         var user = $(this).text();
-        determineIfCorrect(correctAnswers, userSubmission, user);
-        userSubmission.answerKey++;
-        createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
-        // updateUiCounters(userSubmission);
+        // determineIfCorrect(correctAnswers, userSubmission, user);
+        // userSubmission.answerKey++;
+        // createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
+        // // updateUiCounters(userSubmission);
+        ++quizManager.questionNumber;
+        console.log(quizManager.questionNumber);
+        htmlTemplate(quizQuestions, quizManager.questionNumber);
     });
+    htmlTemplate(quizQuestions, quizManager.questionNumber);
+    
 })
