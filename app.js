@@ -72,98 +72,35 @@ var quizManager = {
     answeredCorrectly: 0
 }
 
-//this object tracks the number of questions the user has answered and how answered correctly
-// var userSubmission = {
-//     answerKey: 0,
-//     questionCount: function(answerKey){
-//         return answerKey + 1;
-//     },
-//     answeredCorrectly: 0
-// }
-
 //creates the html with the questions and answers, returns the template
 function htmlTemplate(quizQuestions, questionNumber){
-    //  var questionNumber = userSubmission.answerKey;
 
-    //if(questionNumber < quizQuestions.questions.length){
         var html = '<p class="js-added-element">'+quizQuestions[questionNumber].question+'</p>' +
                     '<ol class="js-answer-list js-added-element">';
-        //                 '<a class="js-answer" href="#">';
                          
          var html2 = quizQuestions[questionNumber].options.map(function(item){
                       return '<a class="js-answer" href="#">' +
                                     '<li>'+item+'</li>'+ 
                                 '</a>';
-                    
-                    // console.log(item);
-                    // console.log(quizQuestions[questionNumber].options[0]);
-
-        // quizQuestions[questionNumber].options.forEach(function(item){
-            
-        //     //console.log(quizQuestions[questionNumber].options[item]);
         })
         html += html2.join('')          
         html += '</ol>';  
-
-        // console.log(html);
-        
-                        // '<a class="js-answer" href="#">'+
-                        //     '<li>'+quizQuestions+'</li>'+
-                        // '</a>'+
-                        // '<a class="js-answer" href="#">'+
-                        //     '<li>'+quizQuestions+'</li>'+
-                        // '</a>'+
-                        // '<a class="js-answer" href="#">'+
-                        //     '<li>'+quizQuestions+'</li>'+
-                        // '</a>'+
-                    
-    //}
+        updateUiCounters(quizManager);              
         $('.container').html(html);
 }
 
 // show quiz score at the end
 function showQuizScore(quizManager){
-    // var count = userSubmission.answerKey;
 
     var html = '<h3>You recieved a ' + quizManager.answeredCorrectly + ' out of ' + quizManager.numberOfQuestions + '</h3>';
     console.log(html);
     $('.container').html(html);
 }
 
-// function searchQuizQuestions(quizQuestions){
-//     var rendering = 
-// }
-
-// renders html to the page, but first removes any existing html
-// function renderHtmlQuestionAndAnswer(quizQuestions, userSubmission){
-
-
-
-//     var renderedArray = quizQuestions.map
-
-//         // var html = htmlTemplate(quizQuestions, userSubmission);
-//         // $('.js-added-element').remove();
-//         // $('.container').append(html);
-
-//         // if(userSubmission.answerKey === correctAnswers.answers.length){
-//         //     // userSubmission.questionCount;
-//         //     updateUiCounters(userSubmission);
-//         //     showQuizScore(userSubmission);
-//         // }else{
-//         //     updateUiCounters(userSubmission);
-//         // }
-        
-//         // showQuizScore(userSubmission);
-        
-// }
-
 // determines if the user entered the correct answer by comparing two strings
 function determineIfCorrect(quizQuestions, user){
     quizQuestionArray =    quizQuestions[quizManager.questionNumber]; 
     var comparsionString = quizQuestionArray.options[quizQuestionArray.answer];
-// console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
-// console.log(user + " user");
-// console.log(comparsionString);
     if(user === comparsionString){
         console.log("correct");
         quizManager.answeredCorrectly++;
@@ -173,48 +110,27 @@ function determineIfCorrect(quizQuestions, user){
     quizManager.questionNumber++;
 }
 
-//updates the ui for question counter and answered correctly counter
-// function updateUiCounters(userSubmission){
-//     var count = userSubmission.questionCount(userSubmission.answerKey);
-//     //added to decrement the count variable by one at the end of the quiz so the top left counter
-//     //is accurate during the end results rendering
-//     if(count > quizQuestions.questions.length){
-//         count = quizQuestions.questions.length;
-//         console.log(count);
-//     }
-//     //updates the question numbers found in top left corner
-//     $('.current-question-box').find('h4').text(count + ' of ' + quizQuestions.questions.length);
-//     //updates the number answered correctly vs total questions answered
-//     $('.percent-correct-box').find('h4').text(userSubmission.answeredCorrectly + ' of '+ userSubmission.answerKey);
-// }    
+// updates the ui for question counter and answered correctly counter
+function updateUiCounters(quizManager){
+    //updates the question numbers found in top left corner
+    $('.current-question-box').find('h4').text((quizManager.questionNumber + 1) + ' of ' + quizManager.numberOfQuestions);
+    //updates the number answered correctly vs total questions answered
+    $('.percent-correct-box').find('h4').text((quizManager.answeredCorrectly) + ' of '+ quizManager.numberOfQuestions);
+}    
 
 //page load and listeners
 $(function(){
     htmlTemplate(quizQuestions, quizManager.questionNumber);
-    // // userSubmission.questionCount = 0;
-    // createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
 
     //attach listener to container for event delagation
     $('.container').on('click', 'li', function(e){
         var user = $(this).text();
         determineIfCorrect(quizQuestions, user);
         if(quizManager.questionNumber < quizManager.numberOfQuestions){
-            // determineIfCorrect(quizQuestions, user);
             htmlTemplate(quizQuestions, quizManager.questionNumber);
         } else {
-            // determineIfCorrect(quizQuestions, user);
             showQuizScore(quizManager);
         }
-        
-        // console.log('event' + userSubmission.questionCount)
-        // console.log($(this).text());
-        // console.log($(this).index()  );
-        //try to use index here 
-        
-        // userSubmission.answerKey++;
-        // createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
-        // // updateUiCounters(userSubmission);
-        // console.log(quizManager.questionNumber);
     });
     
 })
