@@ -3,55 +3,69 @@
 //[0][1] = first answer of first question
 //questions taken from various ase practice test questions
 //may use this in real life
-var quizQuestions = {
-    questions: [
-        [
-            'After performing a cylinder pressure test on a four cylinder engine, the #1 cylinder is 30 psi below specifications. '+
-            'All the other cylinders have passed. The pressure in the #1 cylinder increased after injecting engine oil. '+
-            'Technician A says excessive carbon buildup on the piston head has caused these test results. '+
-            'Technician B says these results indicate a faulty intake or exhaust valve. Who is correct?', 
+
+var quizQuestions = [
+    {
+        question: 'After performing a cylinder pressure test on a four cylinder engine, the #1 cylinder is 30 psi below specifications. '+
+                    'All the other cylinders have passed. The pressure in the #1 cylinder increased after injecting engine oil. '+
+                    'Technician A says excessive carbon buildup on the piston head has caused these test results. '+
+                    'Technician B says these results indicate a faulty intake or exhaust valve. Who is correct?', 
+        answer: 3, //use the index here for the correct option in the array
+        options: [
             'Technician A',
             'Technician B', 
             'Both Technician A and B',
             'Neither Technician A or B'
-        ],
-        [
-            'A vehicle with a vacuum brake booster has a hard pedal with little stopping power.'+
-            'Technician A says a kink in the check valve\'s hose will result in this condition. '+
-            'Technician B says a vacuum booster needs at least 12 Hg of vacuum to operate properly. Who is correct?',
-            'Technician A',
-            'Technician B',
-            'Both Technician A and B',
-            'Neither Technician A or B'
-        ],
-        [
-            'A vehicle has a low spongy brake pedal. Which of these is LEAST likely to result in this condition?',
-            'Loose wheel bearing',
-            'Contaminated brake fluid',
-            'Worn brake pads',
-            'Air in the hydraulic system'
-        ],
-        [
-            'A vehicle\'s air conditioner blower motor will only work if the selector is in the high position. '+
-            'Technician A says to check the blower motor resistor. Technician B says this is most likely a loose ground connection. '+
-            'Who is correct?',
-            'Technician A',
-            'Technician B',
-            'Both Technician A and B',
-            'Neither Technician A or B'
-        ],
-        [
-            'A pedal mounted brake switch is being tested with a voltmeter. '+
-            'The pedal is depressed, and there is power at the switch, but no power coming out. '+
-            'Technician A says with the brake pedal depressed, there should be power present at both ends of the brake switch. '+
-            'Technician B says this condition indicates that there is an open in this brake switch. Who is correct?',
+        ]
+    },
+    {
+        Question: 'A vehicle with a vacuum brake booster has a hard pedal with little stopping power.'+
+                    'Technician A says a kink in the check valve\'s hose will result in this condition. '+
+                    'Technician B says a vacuum booster needs at least 12 Hg of vacuum to operate properly. Who is correct?',
+        answer: 0,
+        options: [
             'Technician A',
             'Technician B',
             'Both Technician A and B',
             'Neither Technician A or B'
         ]
-    ]
-}
+    },
+    {
+        question: 'A vehicle has a low spongy brake pedal. Which of these is LEAST likely to result in this condition?',
+        answer: 2,
+        options: [
+            'Loose wheel bearing',
+            'Contaminated brake fluid',
+            'Worn brake pads',
+            'Air in the hydraulic system'
+        ]
+    },
+    {
+        question: 'A vehicle\'s air conditioner blower motor will only work if the selector is in the high position. '+
+            'Technician A says to check the blower motor resistor. Technician B says this is most likely a loose ground connection. '+
+            'Who is correct?',
+        answer: 1,
+        options: [
+            'Technician A',
+            'Technician B',
+            'Both Technician A and B',
+            'Neither Technician A or B'
+        ]
+    },
+    {
+        question: 'A pedal mounted brake switch is being tested with a voltmeter. '+
+            'The pedal is depressed, and there is power at the switch, but no power coming out. '+
+            'Technician A says with the brake pedal depressed, there should be power present at both ends of the brake switch. '+
+            'Technician B says this condition indicates that there is an open in this brake switch. Who is correct?',
+        answer: 2,
+        options: [
+            'Technician A',
+            'Technician B',
+            'Both Technician A and B',
+            'Neither Technician A or B'
+        ]
+    }
+]
 
 //this object tracks the number of questions the user has answered and how answered correctly
 var userSubmission = {
@@ -65,7 +79,6 @@ var userSubmission = {
 //the answer key
 var correctAnswers = {
     answers: [
-        'Neither Technician A or B',
         'Technician A',
         'Worn brake pads',
         'Technician B',
@@ -160,6 +173,8 @@ $(function(){
     
         // console.log('event' + userSubmission.questionCount)
         // console.log($(this).text());
+
+        //try to use index here 
         var user = $(this).text();
         determineIfCorrect(correctAnswers, userSubmission, user);
         userSubmission.answerKey++;
