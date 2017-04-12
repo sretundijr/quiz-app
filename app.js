@@ -68,11 +68,12 @@ var quizQuestions = [
 
 var quizManager = {
     questionNumber: 0,
+    uiQuestionNumber : 1,
     numberOfQuestions: quizQuestions.length,
     answeredCorrectly: 0
 }
 
-//creates the html with the questions and answers, returns the template
+//creates the html with the questions and answers
 function htmlTemplate(quizQuestions, questionNumber){
 
         var html = '<p class="js-added-element">'+quizQuestions[questionNumber].question+'</p>' +
@@ -85,13 +86,14 @@ function htmlTemplate(quizQuestions, questionNumber){
         })
         html += html2.join('')          
         html += '</ol>';  
-        updateUiCounters(quizManager);              
+        // updateUiCounters(quizManager);              
         $('.container').html(html);
 }
 
 // show quiz score at the end
 function showQuizScore(quizManager){
 
+    // updateUiCounters(quizManager);
     var html = '<h3>You recieved a ' + quizManager.answeredCorrectly + ' out of ' + quizManager.numberOfQuestions + '</h3>';
     console.log(html);
     $('.container').html(html);
@@ -113,9 +115,9 @@ function determineIfCorrect(quizQuestions, user){
 // updates the ui for question counter and answered correctly counter
 function updateUiCounters(quizManager){
     //updates the question numbers found in top left corner
-    $('.current-question-box').find('h4').text((quizManager.questionNumber + 1) + ' of ' + quizManager.numberOfQuestions);
+    $('.current-question-box').find('h4').text((quizManager.questionNumber) + ' of ' + quizManager.numberOfQuestions);
     //updates the number answered correctly vs total questions answered
-    $('.percent-correct-box').find('h4').text((quizManager.answeredCorrectly) + ' of '+ quizManager.numberOfQuestions);
+    $('.percent-correct-box').find('h4').text((quizManager.answeredCorrectly) + ' of '+ quizManager.questionNumber);
 }    
 
 //page load and listeners
@@ -131,6 +133,7 @@ $(function(){
         } else {
             showQuizScore(quizManager);
         }
+        updateUiCounters(quizManager);
     });
     
 })
