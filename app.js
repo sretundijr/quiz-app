@@ -67,7 +67,8 @@ var quizQuestions = [
 ]
 
 var quizManager = {
-    questionNumber: 0
+    questionNumber: 0,
+    numberOfQuestions: quizQuestions.length
 }
 
 //this object tracks the number of questions the user has answered and how answered correctly
@@ -156,17 +157,19 @@ function htmlTemplate(quizQuestions, questionNumber){
         
 // }
 
-//determines if the user entered the correct answer by comparing two strings
-// function determineIfCorrect(correctAnswers, userSubmission, user){
-//     // console.log(userSubmission.questionCount)
-// // console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
-//     if(user === correctAnswers.answers[userSubmission.answerKey]){
-//         console.log("correct");
-//         userSubmission.answeredCorrectly++;
-//     } else {
-//         console.log("incorrect");
-//     }
-// }
+// determines if the user entered the correct answer by comparing two strings
+function determineIfCorrect(quizQuestions, user){
+    var comparsionString = quizQuestions[quizManager.questionNumber]
+                                .options[quizQuestions[quizManager.questionNumber]
+                                .answer];
+// console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
+    if(user === comparsionString){
+        console.log("correct");
+        // userSubmission.answeredCorrectly++;
+    } else {
+        console.log("incorrect");
+    }
+}
 
 //updates the ui for question counter and answered correctly counter
 // function updateUiCounters(userSubmission){
@@ -185,6 +188,7 @@ function htmlTemplate(quizQuestions, questionNumber){
 
 //page load and listeners
 $(function(){
+    htmlTemplate(quizQuestions, quizManager.questionNumber);
     // // userSubmission.questionCount = 0;
     // createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
 
@@ -196,14 +200,13 @@ $(function(){
         // console.log($(this).index()  );
         //try to use index here 
         var user = $(this).text();
-        // determineIfCorrect(correctAnswers, userSubmission, user);
+        determineIfCorrect(quizQuestions, user);
         // userSubmission.answerKey++;
         // createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
         // // updateUiCounters(userSubmission);
         ++quizManager.questionNumber;
-        console.log(quizManager.questionNumber);
+        // console.log(quizManager.questionNumber);
         htmlTemplate(quizQuestions, quizManager.questionNumber);
     });
-    htmlTemplate(quizQuestions, quizManager.questionNumber);
     
 })
