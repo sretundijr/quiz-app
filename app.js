@@ -68,7 +68,8 @@ var quizQuestions = [
 
 var quizManager = {
     questionNumber: 0,
-    numberOfQuestions: quizQuestions.length
+    numberOfQuestions: quizQuestions.length,
+    answeredCorrectly: 0
 }
 
 //this object tracks the number of questions the user has answered and how answered correctly
@@ -104,8 +105,6 @@ function htmlTemplate(quizQuestions, questionNumber){
         html += html2.join('')          
         html += '</ol>';  
 
-
-
         // console.log(html);
         
                         // '<a class="js-answer" href="#">'+
@@ -122,13 +121,14 @@ function htmlTemplate(quizQuestions, questionNumber){
         $('.container').html(html);
 }
 
-//show quiz score at the end
-// function showQuizScore(userSubmission){
-//     var count = userSubmission.answerKey;
+// show quiz score at the end
+function showQuizScore(quizManager){
+    // var count = userSubmission.answerKey;
 
-//     var html = '<h3>You recieved a ' + userSubmission.answeredCorrectly + ' out of ' + count + '</h3>';
-//     $('.container').append(html);
-// }
+    var html = '<h3>You recieved a ' + quizManager.answeredCorrectly + ' out of ' + quizManager.numberOfQuestions + '</h3>';
+    console.log(html);
+    $('.container').html(html);
+}
 
 // function searchQuizQuestions(quizQuestions){
 //     var rendering = 
@@ -159,16 +159,18 @@ function htmlTemplate(quizQuestions, questionNumber){
 
 // determines if the user entered the correct answer by comparing two strings
 function determineIfCorrect(quizQuestions, user){
-    var comparsionString = quizQuestions[quizManager.questionNumber]
-                                .options[quizQuestions[quizManager.questionNumber]
-                                .answer];
+    quizQuestionArray =    quizQuestions[quizManager.questionNumber]; 
+    var comparsionString = quizQuestionArray.options[quizQuestionArray.answer];
 // console.log(user + " or " + correctAnswers.answers[userSubmission.questionCount]);
+// console.log(user + " user");
+// console.log(comparsionString);
     if(user === comparsionString){
         console.log("correct");
-        // userSubmission.answeredCorrectly++;
+        quizManager.answeredCorrectly++;
     } else {
         console.log("incorrect");
     }
+    quizManager.questionNumber++;
 }
 
 //updates the ui for question counter and answered correctly counter
@@ -194,19 +196,25 @@ $(function(){
 
     //attach listener to container for event delagation
     $('.container').on('click', 'li', function(e){
-    
+        var user = $(this).text();
+        determineIfCorrect(quizQuestions, user);
+        if(quizManager.questionNumber < quizManager.numberOfQuestions){
+            // determineIfCorrect(quizQuestions, user);
+            htmlTemplate(quizQuestions, quizManager.questionNumber);
+        } else {
+            // determineIfCorrect(quizQuestions, user);
+            showQuizScore(quizManager);
+        }
+        
         // console.log('event' + userSubmission.questionCount)
         // console.log($(this).text());
         // console.log($(this).index()  );
         //try to use index here 
-        var user = $(this).text();
-        determineIfCorrect(quizQuestions, user);
+        
         // userSubmission.answerKey++;
         // createHtmlQuestionAndAnswer(quizQuestions, userSubmission);
         // // updateUiCounters(userSubmission);
-        ++quizManager.questionNumber;
         // console.log(quizManager.questionNumber);
-        htmlTemplate(quizQuestions, quizManager.questionNumber);
     });
     
 })
