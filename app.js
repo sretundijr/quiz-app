@@ -85,15 +85,13 @@ function htmlTemplate(quizQuestions, questionNumber){
                                 '</a>';
         })
         html += html2.join('')          
-        html += '</ol>';  
-        // updateUiCounters(quizManager);              
+        html += '</ol>';               
         $('.container').html(html);
 }
 
 // show quiz score at the end
 function showQuizScore(quizManager){
 
-    // updateUiCounters(quizManager);
     var html = '<h3>You recieved a ' + quizManager.answeredCorrectly + ' out of ' + quizManager.numberOfQuestions + '</h3>';
     console.log(html);
     $('.container').html(html);
