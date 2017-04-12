@@ -68,9 +68,11 @@ var quizQuestions = [
 
 var quizManager = {
     questionNumber: 0,
-    uiQuestionNumber : 1,
     numberOfQuestions: quizQuestions.length,
-    answeredCorrectly: 0
+    answeredCorrectly: 0,
+    percentage: function(){
+        return (this.answeredCorrectly / this.numberOfQuestions) * 100;
+    }
 }
 
 //creates the html with the questions and answers
@@ -93,13 +95,16 @@ function htmlTemplate(quizQuestions, questionNumber){
 function showQuizScore(quizManager){
 
     var html = '<h3>You recieved a ' + quizManager.answeredCorrectly + ' out of ' + quizManager.numberOfQuestions + '</h3>';
+    html += '<div>'+
+                '<h3>' + quizManager.percentage() + ' %</h3>' +
+            '</div>';
     console.log(html);
     $('.container').html(html);
 }
 
 // determines if the user entered the correct answer by comparing two strings
 function determineIfCorrect(quizQuestions, user){
-    quizQuestionArray =    quizQuestions[quizManager.questionNumber]; 
+    var quizQuestionArray =    quizQuestions[quizManager.questionNumber]; 
     var comparsionString = quizQuestionArray.options[quizQuestionArray.answer];
     if(user === comparsionString){
         console.log("correct");
